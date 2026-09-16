@@ -1,0 +1,92 @@
+@model VisitorManagementSystem.Models.Visit
+
+@{
+    ViewData["Title"] = "Register Visit";
+}
+
+<div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+        <h2><i class="bi bi-plus-circle"></i> Register New Visit</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Register" method="post">
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="mb-3">
+                        <label for="VisitorId" class="form-label">Select Visitor <span class="text-danger">*</span></label>
+                        <select class="form-select" id="VisitorId" name="VisitorId" required>
+                            <option value="">-- Select Visitor --</option>
+                            @foreach (var visitor in ViewBag.Visitors as SelectList)
+                            {
+                                <option value="@visitor.Value">@visitor.Text</option>
+                            }
+                        </select>
+                        <div class="invalid-feedback">Please select a visitor.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="EmployeeId" class="form-label">Select Employee <span class="text-danger">*</span></label>
+                        <select class="form-select" id="EmployeeId" name="EmployeeId" required>
+                            <option value="">-- Select Employee --</option>
+                            @foreach (var employee in ViewBag.Employees as SelectList)
+                            {
+                                <option value="@employee.Value">@employee.Text</option>
+                            }
+                        </select>
+                        <div class="invalid-feedback">Please select an employee.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Purpose" class="form-label">Purpose of Visit <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="Purpose" name="Purpose" rows="3" required placeholder="Enter purpose of visit"></textarea>
+                        <div class="invalid-feedback">Please enter the purpose of visit.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="VisitDate" class="form-label">Visit Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="VisitDate" name="VisitDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                            <div class="invalid-feedback">Please select visit date.</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="CheckInTime" class="form-label">Check-In Time <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" id="CheckInTime" name="CheckInTime" value="@DateTime.Now.ToString("HH:mm")" required />
+                            <div class="invalid-feedback">Please select check-in time.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Register Visit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Form validation
+            $('form').on('submit', function (e) {
+                if (!this.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                $(this).addClass('was-validated');
+            });
+        });
+    </script>
+}

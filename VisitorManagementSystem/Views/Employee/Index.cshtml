@@ -1,0 +1,115 @@
+@model IEnumerable<VisitorManagementSystem.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2><i class="bi bi-person-workspace"></i> Employee Master</h2>
+    </div>
+    <div class="col-md-6 text-end">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#employeeModal" onclick="clearForm()">
+            <i class="bi bi-plus-circle"></i> Add New Employee
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model)
+                    {
+                        <tr>
+                            <td>@employee.EmployeeName</td>
+                            <td>@employee.Department</td>
+                            <td>@employee.Designation</td>
+                            <td>@employee.MobileNo</td>
+                            <td>@employee.Email</td>
+                            <td>
+                                @if (employee.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactive</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-info" onclick="editEmployee(@employee.EmployeeId)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteEmployee(@employee.EmployeeId, '@employee.EmployeeName')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Employee Modal -->
+<div class="modal fade" id="employeeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="employeeForm">
+                    <input type="hidden" id="EmployeeId" name="EmployeeId" />
+                    <div class="mb-3">
+                        <label for="EmployeeName" class="form-label">Employee Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="EmployeeName" name="EmployeeName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Department" class="form-label">Department <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="Department" name="Department" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Designation" class="form-label">Designation <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="Designation" name="Designation" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="MobileNo" class="form-label">Mobile No <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="MobileNo" name="MobileNo" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="Email" name="Email" required />
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="IsActive" name="IsActive" checked />
+                        <label class="form-check-label" for="IsActive">Is Active</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveEmployee()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/employee.js"></script>
+}

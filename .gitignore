@@ -1,0 +1,76 @@
+```
+# Build results
+bin/
+obj/
+
+# User-specific files
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.csproj.user
+
+# Environment specific settings
+.env
+.env.local
+*.local
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Compiled and build artifacts
+*.dll
+*.exe
+*.pdb
+*.runtimeconfig.dev.json
+
+# Dependencies
+packages/
+node_modules/
+
+# ASP.NET Core
+appsettings.Production.json
+appsettings.Staging.json
+
+# Publish folder
+publish/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# Coverage
+coverage/
+*.coverage
+
+# Local DB files
+*.db
+*.sqlite
+*.sqlite3
+
+# Bower components
+bower_components/
+
+# npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Visual Studio Code
+.vscode/tasks.json
+.vscode/launch.json
+
+# Temporary file for database creation
+**/App_Data/
+```

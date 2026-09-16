@@ -1,0 +1,62 @@
+@model VisitorManagementSystem.Models.Visit
+
+@{
+    ViewData["Title"] = "Check Out";
+}
+
+<div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+        <h2><i class="bi bi-box-arrow-right"></i> Check Out Visitor</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5><i class="bi bi-info-circle"></i> Visit Details</h5>
+                    <p><strong>Visitor:</strong> @Model.Visitor?.VisitorName</p>
+                    <p><strong>Employee:</strong> @Model.Employee?.EmployeeName</p>
+                    <p><strong>Purpose:</strong> @Model.Purpose</p>
+                    <p><strong>Check-In Time:</strong> @Model.CheckInTime.ToString("dd MMM yyyy, hh:mm tt")</p>
+                </div>
+
+                <form asp-action="CheckOut" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.VisitId" />
+                    
+                    <div class="mb-3">
+                        <label for="checkOutTime" class="form-label">Check-Out Time <span class="text-danger">*</span></label>
+                        <input type="time" class="form-control" id="checkOutTime" name="checkOutTime" value="@DateTime.Now.ToString("HH:mm")" required />
+                        <div class="invalid-feedback">Please select check-out time.</div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-box-arrow-right"></i> Confirm Check-Out
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+                if (!this.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                $(this).addClass('was-validated');
+            });
+        });
+    </script>
+}
