@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using VisitorManagementSystem.Models;
+
 namespace VisitorManagementSystem.Repositories;
 
 public interface IEmployeeRepository
