@@ -1,0 +1,108 @@
+@model IEnumerable<VisitorManagementSystem.Models.Visitor>
+
+@{
+    ViewData["Title"] = "Visitors";
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2><i class="bi bi-people"></i> Visitor Master</h2>
+    </div>
+    <div class="col-md-6 text-end">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#visitorModal" onclick="clearForm()">
+            <i class="bi bi-plus-circle"></i> Add New Visitor
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="visitorTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
+                        <th>ID Proof</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var visitor in Model)
+                    {
+                        <tr>
+                            <td>@visitor.VisitorName</td>
+                            <td>@visitor.CompanyName</td>
+                            <td>@visitor.MobileNo</td>
+                            <td>@visitor.Email</td>
+                            <td>@visitor.IDProof</td>
+                            <td>
+                                <button class="btn btn-sm btn-info" onclick="editVisitor(@visitor.VisitorId)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteVisitor(@visitor.VisitorId, '@visitor.VisitorName')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Visitor Modal -->
+<div class="modal fade" id="visitorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add Visitor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="visitorForm">
+                    <input type="hidden" id="VisitorId" name="VisitorId" />
+                    <div class="mb-3">
+                        <label for="VisitorName" class="form-label">Visitor Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="VisitorName" name="VisitorName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="CompanyName" class="form-label">Company Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="CompanyName" name="CompanyName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="MobileNo" class="form-label">Mobile No <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="MobileNo" name="MobileNo" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="Email" name="Email" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="IDProof" class="form-label">ID Proof Type</label>
+                        <select class="form-select" id="IDProof" name="IDProof">
+                            <option value="">Select ID Proof</option>
+                            <option value="Aadhar Card">Aadhar Card</option>
+                            <option value="PAN Card">PAN Card</option>
+                            <option value="Passport">Passport</option>
+                            <option value="Driving License">Driving License</option>
+                            <option value="Voter ID">Voter ID</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveVisitor()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/visitor.js"></script>
+}

@@ -1,0 +1,77 @@
+@model VisitorManagementSystem.Models.Visit
+
+@{
+    ViewData["Title"] = "Visit Details";
+}
+
+<div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+        <h2><i class="bi bi-eye"></i> Visit Details</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Visit Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Visitor Name</dt>
+                    <dd class="col-sm-8">@Model.Visitor?.VisitorName</dd>
+
+                    <dt class="col-sm-4">Visitor Company</dt>
+                    <dd class="col-sm-8">@Model.Visitor?.CompanyName</dd>
+
+                    <dt class="col-sm-4">Visitor Mobile</dt>
+                    <dd class="col-sm-8">@Model.Visitor?.MobileNo</dd>
+
+                    <dt class="col-sm-4">Employee Name</dt>
+                    <dd class="col-sm-8">@Model.Employee?.EmployeeName</dd>
+
+                    <dt class="col-sm-4">Employee Department</dt>
+                    <dd class="col-sm-8">@Model.Employee?.Department</dd>
+
+                    <dt class="col-sm-4">Purpose</dt>
+                    <dd class="col-sm-8">@Model.Purpose</dd>
+
+                    <dt class="col-sm-4">Visit Date</dt>
+                    <dd class="col-sm-8">@Model.VisitDate.ToString("dd MMMM yyyy")</dd>
+
+                    <dt class="col-sm-4">Check-In Time</dt>
+                    <dd class="col-sm-8">@Model.CheckInTime.ToString("dd MMMM yyyy, hh:mm tt")</dd>
+
+                    <dt class="col-sm-4">Check-Out Time</dt>
+                    <dd class="col-sm-8">
+                        @(Model.CheckOutTime?.ToString("dd MMMM yyyy, hh:mm tt") ?? "Not checked out yet")
+                    </dd>
+
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.Status == "CheckedIn")
+                        {
+                            <span class="badge bg-success">Checked In</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Checked Out</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+                @if (Model.Status == "CheckedIn")
+                {
+                    <a asp-action="CheckOut" asp-route-id="@Model.VisitId" class="btn btn-warning float-end">
+                        <i class="bi bi-box-arrow-right"></i> Check Out
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

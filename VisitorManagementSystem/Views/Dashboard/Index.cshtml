@@ -1,0 +1,123 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2><i class="bi bi-speedometer2"></i> Dashboard</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card bg-primary text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Total Visitors Today</h6>
+                        <h2 class="mb-0">@ViewBag.TotalVisitorsToday</h2>
+                    </div>
+                    <i class="bi bi-people fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card bg-success text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Visitors Inside</h6>
+                        <h2 class="mb-0">@ViewBag.VisitorsInside</h2>
+                    </div>
+                    <i class="bi bi-person-check fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card bg-info text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Checked Out Today</h6>
+                        <h2 class="mb-0">@ViewBag.CheckedOutVisitors</h2>
+                    </div>
+                    <i class="bi bi-person-dash fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card bg-warning text-dark h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Quick Actions</h6>
+                        <a asp-controller="Visit" asp-action="Register" class="btn btn-sm btn-light mt-2">
+                            <i class="bi bi-plus-circle"></i> Register Visit
+                        </a>
+                    </div>
+                    <i class="bi bi-lightning-charge fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-clock-history"></i> Recent Visits</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.RecentVisits != null && ((List<VisitorManagementSystem.Models.Visit>)ViewBag.RecentVisits).Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Visitor</th>
+                                    <th>Employee</th>
+                                    <th>Purpose</th>
+                                    <th>Check-In Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var visit in ViewBag.RecentVisits)
+                                {
+                                    <tr>
+                                        <td>@visit.Visitor?.VisitorName</td>
+                                        <td>@visit.Employee?.EmployeeName</td>
+                                        <td>@visit.Purpose</td>
+                                        <td>@visit.CheckInTime.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                        <td>
+                                            @if (visit.Status == "CheckedIn")
+                                            {
+                                                <span class="badge bg-success">Checked In</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Checked Out</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted text-center">No recent visits found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

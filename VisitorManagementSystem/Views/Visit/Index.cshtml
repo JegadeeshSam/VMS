@@ -1,0 +1,77 @@
+@model IEnumerable<VisitorManagementSystem.Models.Visit>
+
+@{
+    ViewData["Title"] = "Visit History";
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2><i class="bi bi-clock-history"></i> Visit History</h2>
+    </div>
+    <div class="col-md-6 text-end">
+        <a asp-action="Register" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Register New Visit
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="visitTable">
+                <thead>
+                    <tr>
+                        <th>Visitor</th>
+                        <th>Employee</th>
+                        <th>Purpose</th>
+                        <th>Visit Date</th>
+                        <th>Check-In Time</th>
+                        <th>Check-Out Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var visit in Model)
+                    {
+                        <tr>
+                            <td>@visit.Visitor?.VisitorName</td>
+                            <td>@visit.Employee?.EmployeeName</td>
+                            <td>@visit.Purpose</td>
+                            <td>@visit.VisitDate.ToString("dd MMM yyyy")</td>
+                            <td>@visit.CheckInTime.ToString("hh:mm tt")</td>
+                            <td>
+                                @(visit.CheckOutTime?.ToString("hh:mm tt") ?? "-")
+                            </td>
+                            <td>
+                                @if (visit.Status == "CheckedIn")
+                                {
+                                    <span class="badge bg-success">Checked In</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Checked Out</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@visit.VisitId" class="btn btn-sm btn-info" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                @if (visit.Status == "CheckedIn")
+                                {
+                                    <a asp-action="CheckOut" asp-route-id="@visit.VisitId" class="btn btn-sm btn-warning" title="Check Out">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/visit.js"></script>
+}
